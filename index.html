@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo de Productos</title>
+    <title>Catálogo De importaciones</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
     <style>
         /* --- ESTILOS CSS (DISEÑO) --- */
         :root {
-            --primary-color: #1e3961a2; /* Azul tipo Entel */
+            --primary-color: #1e3961a2;
             --bg-color: #f4f4f4;
             --card-bg: #ffffff;
             --text-color: #333;
@@ -18,40 +20,43 @@
             margin: 0;
             background-color: var(--bg-color);
             color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
-/* Cabecera */
+        /* Cabecera */
         header {
-            background-color: #095032ec; /* Azul oscuro (si quieres cambiarlo a blanco, pon #ffffff) */
+            background-color: #095032ec;
             color: white;
-            padding: 0.5rem 2rem; /* Reduje un poco el relleno vertical */
+            padding: 0.5rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            height: 70px; /* Altura fija para la barra */
+            height: 70px;
         }
 
-        /* Estilo específico para tu logo */
         .logo img {
-            height: 60px; /* Ajusta este número para hacerlo más grande o chico */
-            width: auto;  /* Mantiene la proporción para que no se estire */
+            height: 60px;
+            width: auto;
             object-fit: contain;
-            border-radius: 50%; /* Opcional: Esto lo hace redondo si la imagen es cuadrada */
-            background-color: white; /* Un fondo blanco por si el logo es negro y la barra azul */
-            padding: 2px; /* Un pequeño borde interno */
+            border-radius: 50%;
+            background-color: white;
+            padding: 2px;
         }
 
-        /* Contenedor principal (Grid de 2 columnas: Filtros y Productos) */
+        /* Contenedor principal */
         .main-container {
             display: grid;
-            grid-template-columns: 250px 1fr; /* 250px para filtros, el resto para productos */
+            grid-template-columns: 250px 1fr;
             gap: 20px;
-            max-width: 1200px;
+            max-width: 95%;
             margin: 20px auto;
             padding: 0 15px;
+            flex: 1; /* Esto hace que el footer se vaya al fondo si hay pocos productos */
         }
 
-        /* Barra lateral de filtros */
+        /* Barra lateral */
         aside.filters {
             background: rgb(255, 255, 255);
             padding: 20px;
@@ -60,129 +65,237 @@
         }
 
         /* Cuadrícula de productos */
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Responsive automático */
-            gap: 20px;
-        }
+    .products-grid {
+    display: grid; /* Esto activa el modo rejilla */
+    /* Aquí está el truco: */
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px; /* Espacio entre tarjetas */
+    }
 
-        /* Tarjeta de Producto (Estilo Entel) */
+        /* Tarjeta de Producto */
         .product-card {
-            background: var(--card-bg);
+            background: white;
             border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            padding: 15px;
-            transition: transform 0.2s, box-shadow 0.2s;
+            border-radius: 12px;
+            padding: 20px;
+            position: relative;
+            transition: all 0.3s ease;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            height: 100%;
         }
 
         .product-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-color: #000;
         }
 
-        .badges {
-            font-size: 0.8rem;
-            margin-bottom: 10px;
-        }
-        
         .badge {
-            background-color: #ffcc00;
-            padding: 2px 8px;
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background-color: #ff3b30;
+            color: white;
+            padding: 4px 10px;
+            font-size: 0.75rem;
+            font-weight: 700;
             border-radius: 4px;
-            font-weight: bold;
+            z-index: 2;
         }
 
         .product-img {
             width: 100%;
-            height: 200px;
-            object-fit: contain; /* Para que la imagen no se deforme */
-            margin-bottom: 10px;
+            height: 220px;
+            object-fit: contain;
+            margin-bottom: 15px;
+            mix-blend-mode: multiply;
         }
 
         .brand {
-            font-size: 0.9rem;
-            color: #666;
+            font-size: 0.8rem;
+            color: #888;
             text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            margin-bottom: 5px;
         }
 
         .product-name {
-            font-size: 1.1rem;
-            font-weight: bold;
-            margin: 5px 0;
-            min-height: 50px; /* Para alinear alturas */
+            font-size: 1rem;
+            font-weight: 600;
+            color: #333;
+            margin: 0 0 10px 0;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
         .price-container {
-            margin: 10px 0;
+            margin-top: auto;
+            margin-bottom: 15px;
         }
 
         .price {
-            font-size: 1.5rem;
-            color: var(--primary-color);
-            font-weight: 800;
+            font-size: 1.4rem;
+            color: #000;
+            font-weight: 700;
         }
 
-        .installments {
-            font-size: 0.8rem;
-            color: #666;
+        .old-price {
+            font-size: 0.9rem;
+            color: #aaa;
+            text-decoration: line-through;
+            margin-right: 8px;
         }
 
-        .colors {
-            display: flex;
-            gap: 5px;
-            margin: 10px 0;
-        }
-
-        .color-dot {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            border: 1px solid #ccc;
-            cursor: pointer;
-        }
-
-        /* Botón de acción */
         .btn-buy {
-            background-color: transparent;
-            border: 1px solid var(--primary-color);
-            color: var(--primary-color);
+            background-color: white;
+            color: #000;
+            border: 2px solid #000;
             padding: 10px;
-            width: 100%;
-            border-radius: 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            transition: all 0.2s;
             cursor: pointer;
-            font-weight: bold;
             text-align: center;
-            text-decoration: none;
-            display: block;
+            width: 100%;
         }
 
         .btn-buy:hover {
-            background-color: var(--primary-color);
+            background-color: #000;
             color: white;
         }
 
-        /* Responsive para móviles */
-        @media (max-width: 768px) {
-            .main-container {
-                grid-template-columns: 1fr; /* Una sola columna en móvil */
-            }
-            aside.filters {
-                display: none; /* Ocultamos filtros en móvil por ahora */
-            }
+        /* --- ESTILOS DEL FOOTER (Que faltaban) --- */
+        .main-footer {
+            background-color: #111;
+            color: #fff;
+            padding: 40px 0 20px;
+            margin-top: 40px;
         }
-        /* --- ESTILOS DEL MODAL (VENTANA EMERGENTE) --- */
+
+        .footer-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .footer-col {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 20px;
+        }
+
+        .footer-col h3 {
+            color: #25d366; /* Verde tipo WA */
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .footer-col ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-col ul li a {
+            color: #bbb;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-col ul li a:hover {
+            color: #fff;
+        }
+
+        .social-links a {
+            display: inline-block;
+            margin-right: 15px;
+            color: #fff;
+            text-decoration: none;
+            background: #333;
+            padding: 8px 15px;
+            border-radius: 5px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            border-top: 1px solid #333;
+            padding-top: 20px;
+            margin-top: 20px;
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        /* --- BUSCADOR --- */
+        .search input {
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            width: 250px;
+            outline: none;
+        }
+
+        .suggestions-box {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: white;
+            border-radius: 0 0 5px 5px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            z-index: 1000;
+            display: none;
+            overflow: hidden;
+        }
+
+        /* BOTON FLOTANTE WSP */
+        .btn-wsp {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #25d366;
+            color: white;
+            border-radius: 50px;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            z-index: 1000;
+            transition: transform 0.3s;
+            text-decoration: none;
+            font-size: 30px; /* Tamaño del icono */
+        }
+
+        .btn-wsp:hover {
+            transform: scale(1.1);
+            background-color: #128c7e;
+        }
+
+        /* --- MODAL --- */
         .modal-overlay {
-            display: none; /* ¡ESTO ES LO IMPORTANTE! Lo oculta al inicio */
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             background-color: rgba(0,0,0,0.5);
-            z-index: 1000;
+            z-index: 2000;
             justify-content: center;
             align-items: center;
         }
@@ -191,14 +304,12 @@
             background: white;
             width: 90%;
             max-width: 900px;
-            max-height: 90vh; /* Para que no sea más alto que la pantalla */
-            overflow-y: auto; /* Scroll si no cabe */
+            max-height: 90vh;
+            overflow-y: auto;
             border-radius: 8px;
             padding: 30px;
             position: relative;
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            display: flex;
-            flex-direction: column;
         }
 
         .btn-cerrar {
@@ -225,20 +336,15 @@
             border-radius: 8px;
         }
 
-        .col-info h1 {
-            margin-top: 0;
-            color: #333;
-        }
-
         .precio-grande {
             font-size: 2.5rem;
-            color: #e60000; /* Rojo oferta */
+            color: #e60000;
             font-weight: bold;
             margin: 10px 0;
         }
 
         .btn-comprar-ahora {
-            background-color: #25D366; /* Verde WhatsApp */
+            background-color: #25D366;
             color: white;
             padding: 15px;
             text-align: center;
@@ -251,84 +357,35 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.2);
         }
 
-        .btn-comprar-ahora:hover {
-            background-color: #128C7E;
-        }
-
-        /* Ajuste para celulares */
+        /* Responsive */
         @media (max-width: 768px) {
-            .detalle-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        /* --- ESTILOS DEL BUSCADOR CON SUGERENCIAS --- */
-        
-        /* Estilo de la barra de texto */
-        .search input {
-            padding: 10px;
-            border-radius: 5px;
-            border: none;
-            width: 250px; /* Un poco más ancho */
-            outline: none;
-        }
-
-        /* La caja flotante de sugerencias */
-        .suggestions-box {
-            position: absolute; /* Flota encima de todo */
-            top: 100%; /* Justo debajo del input */
-            left: 0;
-            width: 100%; /* Del mismo ancho que la barra */
-            background: white;
-            border-radius: 0 0 5px 5px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Sombrita elegante */
-            z-index: 1000; /* Asegura que tape lo de abajo */
-            display: none; /* Oculto hasta que escribas */
-            overflow: hidden;
-        }
-
-        /* Cada renglón de sugerencia */
-        .suggestion-item {
-            padding: 10px;
-            color: #333;
-            cursor: pointer;
-            border-bottom: 1px solid #eee;
-            font-size: 0.9rem;
-            background: white;
-            text-align: left; /* Alineado a la izquierda */
-        }
-
-        /* Efecto al pasar el mouse */
-        .suggestion-item:hover {
-            background-color: #f0f0f0;
-            color: #0055ff; /* Azulito al seleccionar */
+            .main-container { grid-template-columns: 1fr; }
+            aside.filters { display: none; }
+            .detalle-grid { grid-template-columns: 1fr; }
+            .search input { width: 150px; }
         }
     </style>
 </head>
 <body>
 
     <header>
-<header>
         <div class="logo">
-            <img src="img/Logonew.png" alt="Logo Tienda" id="img-logo">
+            <img src="img/Logonew.png" alt="Logo Rstore" id="img-logo">
         </div>
         
         <div class="search" style="position: relative;"> 
             <input type="text" id="buscador" placeholder="Buscar producto..." autocomplete="off">
-            
             <div id="lista-sugerencias" class="suggestions-box"></div>
         </div>
-    </header>
     </header>
 
     <div class="main-container">
         <aside class="filters">
             <h3>Filtros</h3>
             <hr>
-    <div><input type="checkbox" class="filtro-cat" value="Audífonos"> Audífonos</div>
-    <div><input type="checkbox" class="filtro-cat" value="Componentes"> Componentes</div>
-    <div><input type="checkbox" class="filtro-cat" value="Accesorios"> Accesorios</div>
-
-
+            <div><input type="checkbox" class="filtro-cat" value="Audífonos"> Audífonos</div>
+            <div><input type="checkbox" class="filtro-cat" value="Componentes"> Componentes</div>
+            <div><input type="checkbox" class="filtro-cat" value="Accesorios"> Accesorios</div>
         </aside>
 
         <section class="products-grid" id="contenedor-productos">
@@ -355,10 +412,9 @@
                     <div class="info-entrega">
                         <h3>📍 Métodos de Entrega</h3>
                         <ul>
-                            <li>🚇 <strong>Estaciones del Tren:</strong> Bayóvar a La Cultura (Contra entrega).</li>
-                            <li>🛵 <strong>Delivery:</strong> Todo SJL (Costo según zona).</li>
-                            <li>📦 <strong>Provincia:</strong> Envíos por Shalom (Pago adelantado).</li>
-                            <li>   <strong>Numero:</strong>+51 977507037</li>
+                            <li>🚇 <strong>Estaciones del Tren:</strong> Bayóvar a La Cultura.</li>
+                            <li>🛵 <strong>Delivery:</strong> Todo SJL.</li>
+                            <li>📦 <strong>Provincia:</strong> Envíos por Shalom.</li>
                         </ul>
                     </div>
 
@@ -376,337 +432,138 @@
         </div>
     </div>
 
-    <script>
-/* --- LOGICA JAVASCRIPT COMPLETA --- */
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3>Sobre Nosotros</h3>
+                <p>Los mejores productos tecnologicos y originales , accesorios , audifonos , Componentes y proximamente mas.</p>
+            </div>
 
+            <div class="footer-col">
+                <h3>Enlaces Rápidos</h3>
+                <ul>
+                    <li><a href="#">Inicio</a></li>
+                    <li><a href="#">Catálogo</a></li>
+                    <li><a href="#">Contacto : +51 977507037</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>Síguenos</h3>
+                <div class="social-links">
+                    <a href="#">Facebook</a>
+
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 Rstore Perú - Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/51977507037" class="btn-wsp" target="_blank">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <script>
     // 1. BASE DE DATOS DE TUS PRODUCTOS
-    // (He recuperado tus datos de las capturas que me enviaste)
     const misProductos = [
-            {
-                id: 1,
-                marca: "KZ Audio",
-                nombre: "Audífonos KZ Pisces - Tipo C sin microfo",
-                precio: 75.00,
-                imagen: "img/KzPisces1.jpeg",
-                colores: ["black"],
-                destacado: true,
-                categoria: "Audífonos"
-            },
-            {
-                id: 2,
-                marca: "Arctic",
-                nombre: "Pasta Térmica MX-4 (4g)",
-                precio: 23.00,
-                imagen: "img/PastaTermicaMx4-1.jpeg",
-                colores: [""],
-                destacado: false,
-                categoria: "Componentes"
-            },
-            {
-                id: 3,
-                marca: "KZ Audio",
-                nombre: "Módulo Bluetooth KZ AZ09",
-                precio: 90.00,
-                imagen: "img/KzModulo09-1.jpeg",
-                colores: ["black"],
-                destacado: false,
-                categoria: "Audífonos"
-            },
-            {
-                id: 4,
-                marca: "KZ Audio",
-                nombre: "Kz Edx Pro X Sin microfono",
-                precio: 35,
-                imagen: "img/KzEdxproxT-1.jpeg",
-                colores: ["black", "White"],
-                destacado: true,
-                categoria: "Audífonos"
-            },
-            {
-                id: 5,
-                marca: "Kz Audio",
-                nombre: "Kz Edx Pro X Con microfono",
-                precio: 38,
-                imagen: "img/KzEdxproxN-1.jpeg",
-                colores: ["black", "Withe"],
-                destacado: true,
-                categoria: "Audífonos"
-            },
-            {
-                id: 6,
-                marca: "Kz Audio",
-                nombre: "Kz Edx Pro Sin microfono",
-                precio: 30,
-                imagen: "img/KzEdxproT-1.jpeg",
-                colores: ["White"],
-                destacado: false,
-                categoria: "Audífonos"
-            },
-            {
-                id: 7,
-                marca: "Kz Audio",
-                nombre: "Kz Edx Pro Con microfono",
-                precio: 33,
-                imagen: "img/KzEdxproT-1.jpeg",
-                colores: ["White"],
-                destacado: false,
-                categoria: "Audífonos"
-            },
-            {
-                id: 8,
-                marca: "Kz Audio",
-                nombre: "Kz Gale-Gaming Version Con y Sin microfono",
-                precio: 65,
-                imagen: "img/KzGaleT-1.jpeg",
-                colores: ["White"],
-                destacado: true,
-                categoria: "Audífonos"
-            },
-            {
-                id: 9,
-                marca: "Kz Audio",
-                nombre: "Kz Zsn Pro x Con y Sin microfono",
-                precio: 63,
-                imagen: "img/KzZsnproxT-1.png",
-                colores: ["Yellow"],
-                destacado: true,
-                categoria: "Audífonos"
-            },
-            {
-                id: 10,
-                marca: "Kz Audio",
-                nombre: "Kz Castor Bass Version Con Micro",
-                precio: 65,
-                imagen: "img/KzCastorN-1.png",
-                colores: ["Gray" , "black"],
-                destacado: false,
-                categoria: "Audífonos"
-            },
-            {
-                id: 11,
-                marca: "Kz Audio",
-                nombre: "Kz Castor Bass Version Sin Micro",
-                precio: 60,
-                imagen: "img/KzCastorN-1.png",
-                colores: ["Gray" , "black"],
-                destacado: true,
-                categoria: "Audífonos"
-            },
-            {
-                id: 12,
-                marca: "Kz Audio",
-                nombre: "Kz Edc X Sin micro",
-                precio: 25,
-                imagen: "img/KzEdcx.jpeg",
-                colores: ["Gray"],
-                destacado: true,
-                categoria: "Audífonos"
-            },
-            {
-                id: 13,
-                marca: "Kz Audio",
-                nombre: "Kz Castor Pro Edicion Bass",
-                precio: 78,
-                imagen: "img/KzCastorPro.jpeg",
-                colores: ["Black","Gray"],
-                destacado: true,
-                categoria: "Audífonos"
-            },
-            {
-                id: 14,
-                marca: "Kz Audio",
-                nombre: "Kz Edx Ultra Sin micro",
-                precio: 40,
-                imagen: "img/KzEdxUltraS.jpeg",
-                colores: ["Black"],
-                destacado: true,
-                categoria: "Audífonos"
-            },
-            {
-                id: 15,
-                marca: "Kz Audio",
-                nombre: "Kz Dawn Sin micro",
-                precio: 25,
-                imagen: "img/KzDawn.jpeg",
-                colores: ["Black"],
-                destacado: false,
-                categoria: "Audífonos"
-            },
-            {
-                id: 16,
-                marca: "Kz Audio",
-                nombre: "Kz Zsn Pro 2",
-                precio: 65,
-                imagen: "img/KzZsnPro2.jpeg",
-                colores: ["Gray"],
-                destacado: true,
-                categoria: "Audífonos"
-            },
-            {
-                id: 17,
-                marca: "Kz Audio",
-                nombre: "Kz Edx Lite",
-                precio: 28,
-                imagen: "img/KzEdxLite.jpeg",
-                colores: ["White"],
-                destacado: true,
-                categoria: "Audífonos"
-            },
-            {
-                id: 18,
-                marca: "Artic",
-                nombre: "Pastar termica Mx-6 4g",
-                precio: 28,
-                imagen: "img/Mx6.jpeg",
-                colores: ["White"],
-                destacado: true,
-                categoria: "Componentes"
-            },
-            {
-                id: 19,
-                marca: "Artic",
-                nombre: "Pastar termica Mx-4 20g",
-                precio: 85,
-                imagen: "img/Mx4-20.jpeg",
-                colores: ["White"],
-                destacado: true,
-                categoria: "Componentes"
-            },
-            {
-                id: 20,
-                marca: "Lenovo",
-                nombre: "Lenovo Gm2 Pro",
-                precio: 35,
-                imagen: "img/LenovoGm2.jpeg",
-                colores: ["White","Black"],
-                destacado: true,
-                categoria: "Audífonos"
-            },
-            
+            { id: 1, marca: "KZ Audio", nombre: "Audífonos KZ Pisces - Tipo C sin microfo", precio: 75.00, imagen: "img/KzPisces1.jpeg", destacado: true, categoria: "Audífonos" },
+            { id: 2, marca: "Arctic", nombre: "Pasta Térmica MX-4 (4g)", precio: 23.00, imagen: "img/PastaTermicaMx4-1.jpeg", destacado: false, categoria: "Componentes" },
+            { id: 3, marca: "KZ Audio", nombre: "Módulo Bluetooth KZ AZ09", precio: 90.00, imagen: "img/KzModulo09-1.jpeg", destacado: false, categoria: "Audífonos" },
+            { id: 4, marca: "KZ Audio", nombre: "Kz Edx Pro X Sin microfono", precio: 35, imagen: "img/KzEdxproxT-1.jpeg", destacado: true, categoria: "Audífonos" },
+            { id: 5, marca: "Kz Audio", nombre: "Kz Edx Pro X Con microfono", precio: 38, imagen: "img/KzEdxproxN-1.jpeg", destacado: true, categoria: "Audífonos" },
+            { id: 6, marca: "Kz Audio", nombre: "Kz Edx Pro Sin microfono", precio: 30, imagen: "img/KzEdxproT-1.jpeg", destacado: false, categoria: "Audífonos" },
+            { id: 7, marca: "Kz Audio", nombre: "Kz Edx Pro Con microfono", precio: 33, imagen: "img/KzEdxproT-1.jpeg", destacado: false, categoria: "Audífonos" },
+            { id: 8, marca: "Kz Audio", nombre: "Kz Gale-Gaming Version", precio: 65, imagen: "img/KzGaleT-1.jpeg", destacado: true, categoria: "Audífonos" },
+            { id: 9, marca: "Kz Audio", nombre: "Kz Zsn Pro x", precio: 63, imagen: "img/KzZsnproxT-1.png", destacado: true, categoria: "Audífonos" },
+            { id: 10, marca: "Kz Audio", nombre: "Kz Castor Bass Con Micro", precio: 65, imagen: "img/KzCastorN-1.png", destacado: false, categoria: "Audífonos" },
+            { id: 11, marca: "Kz Audio", nombre: "Kz Castor Bass Sin Micro", precio: 60, imagen: "img/KzCastorN-1.png", destacado: true, categoria: "Audífonos" },
+            { id: 12, marca: "Kz Audio", nombre: "Kz Edc X Sin micro", precio: 25, imagen: "img/KzEdcx.jpeg", destacado: true, categoria: "Audífonos" },
+            { id: 13, marca: "Kz Audio", nombre: "Kz Castor Pro Edicion Bass", precio: 78, imagen: "img/KzCastorPro.jpeg", destacado: true, categoria: "Audífonos" },
+            { id: 14, marca: "Kz Audio", nombre: "Kz Edx Ultra Sin micro", precio: 40, imagen: "img/KzEdxUltraS.jpeg", destacado: true, categoria: "Audífonos" },
+            { id: 15, marca: "Kz Audio", nombre: "Kz Dawn Sin micro", precio: 25, imagen: "img/KzDawn.jpeg", destacado: false, categoria: "Audífonos" },
+            { id: 16, marca: "Kz Audio", nombre: "Kz Zsn Pro 2", precio: 65, imagen: "img/KzZsnPro2.jpeg", destacado: true, categoria: "Audífonos" },
+            { id: 17, marca: "Kz Audio", nombre: "Kz Edx Lite", precio: 28, imagen: "img/KzEdxLite.jpeg", destacado: true, categoria: "Audífonos" },
+            { id: 18, marca: "Artic", nombre: "Pastar termica Mx-6 4g", precio: 28, imagen: "img/Mx6.jpeg", destacado: true, categoria: "Componentes" },
+            { id: 19, marca: "Artic", nombre: "Pastar termica Mx-4 20g", precio: 85, imagen: "img/Mx4-20.jpeg", destacado: true, categoria: "Componentes" },
+            { id: 20, marca: "Lenovo", nombre: "Lenovo Gm2 Pro", precio: 35, imagen: "img/LenovoGm2.jpeg", destacado: true, categoria: "Audífonos" },
         ];
 
-    // 2. CAPTURAMOS LOS ELEMENTOS DEL HTML
     const contenedor = document.getElementById('contenedor-productos');
     const inputBuscador = document.getElementById('buscador');
     const checkboxesCategoria = document.querySelectorAll('.filtro-cat');
 
-    // 3. FUNCIÓN PARA DIBUJAR LOS PRODUCTOS
-    function renderizarProductos(listaDeProductos) {
-        contenedor.innerHTML = ''; // Limpiamos lo que había antes
-        
-        // Si no hay productos, mostramos un mensaje
-        if (listaDeProductos.length === 0) {
-            contenedor.innerHTML = '<p>No se encontraron productos :(</p>';
+    function renderizarProductos(lista) {
+        contenedor.innerHTML = '';
+        if (lista.length === 0) {
+            contenedor.innerHTML = '<p style="text-align:center; width:100%;">No encontramos productos :(</p>';
             return;
         }
 
-        listaDeProductos.forEach(producto => {
-            // Lógica de colores
-            let htmlColores = '';
-            producto.colores.forEach(color => {
-                htmlColores += `<div class="color-dot" style="background-color: ${color};"></div>`;
-            });
+        lista.forEach(producto => {
+            const precioAntiguo = (producto.precio * 1.2).toFixed(2); 
+            const htmlBadge = producto.destacado ? `<span class="badge">-20%</span>` : '';
+            const htmlPrecioAntiguo = producto.destacado ? `<span class="old-price">S/ ${precioAntiguo}</span>` : '';
 
-            // Lógica de etiqueta oferta
-            const htmlBadge = producto.destacado ? '<span class="badge">OFERTA</span>' : '';
-
-            // Creamos la tarjeta
-            const tarjetaHTML = `
+            contenedor.innerHTML += `
                 <article class="product-card">
-                    <div class="badges">
-                        ${htmlBadge}
-                    </div>
+                    ${htmlBadge}
                     <img src="${producto.imagen}" alt="${producto.nombre}" class="product-img">
-                    
-                    <div class="info">
+                    <div class="info-container">
                         <div class="brand">${producto.marca}</div>
                         <h3 class="product-name">${producto.nombre}</h3>
-                        
                         <div class="price-container">
-                            <div class="price">S/ ${producto.precio.toFixed(2)}</div>
-                            <div class="installments">Pago con Yape/Plin/Efectivo</div>
-                        </div>
-
-                        <div class="colors">
-                            ${htmlColores}
+                            ${htmlPrecioAntiguo}
+                            <span class="price">S/ ${producto.precio.toFixed(2)}</span>
                         </div>
                     </div>
-
                     <button onclick="abrirModal(${producto.id})" class="btn-buy">
-                        Comprar / Ver Detalles
+                        Ver Detalles
                     </button>
                 </article>
             `;
-
-            contenedor.innerHTML += tarjetaHTML;
         });
     }
 
-    // 4. LÓGICA DE FILTRADO (Buscador y Checkboxes)
     function filtrarTodo() {
         const texto = inputBuscador ? inputBuscador.value.toLowerCase() : '';
-        
         const categoriasSeleccionadas = Array.from(checkboxesCategoria)
             .filter(checkbox => checkbox.checked)
             .map(checkbox => checkbox.value);
 
         const productosFiltrados = misProductos.filter(producto => {
             const coincideTexto = producto.nombre.toLowerCase().includes(texto) || 
-                                  producto.marca.toLowerCase().includes(texto);
-            
+                                producto.marca.toLowerCase().includes(texto);
             const coincideCategoria = categoriasSeleccionadas.length === 0 || 
-                                      categoriasSeleccionadas.includes(producto.categoria);
-
+                                categoriasSeleccionadas.includes(producto.categoria);
             return coincideTexto && coincideCategoria;
         });
-
         renderizarProductos(productosFiltrados);
     }
 
-    // 5. ACTIVAMOS LOS EVENTOS (Si existen los elementos)
-    if(inputBuscador) {
-        inputBuscador.addEventListener('input', filtrarTodo);
-    }
+    if(inputBuscador) { inputBuscador.addEventListener('input', filtrarTodo); }
     checkboxesCategoria.forEach(chk => chk.addEventListener('change', filtrarTodo));
 
-
-    // 6. FUNCIONES DE LA VENTANA MODAL (POP-UP)
-
-function abrirModal(idProducto) {
-        // 1. Buscamos el producto
+    function abrirModal(idProducto) {
         const producto = misProductos.find(p => p.id === idProducto);
-
         if (producto) {
-            // 2. Llenamos la información visual (Imagen, Precio, etc.)
             const modal = document.getElementById('modal-producto');
-            if(!modal) return; // Si no existe el modal, no hacemos nada
+            if(!modal) return;
 
             document.getElementById('m-imagen').src = producto.imagen;
             document.getElementById('m-marca').innerText = producto.marca;
             document.getElementById('m-nombre').innerText = producto.nombre;
             document.getElementById('m-precio').innerText = "S/ " + producto.precio.toFixed(2);
 
-            // --- AQUÍ ESTÁ LA SOLUCIÓN DEL LINK ---
+                const miCelular = "51977507037"; 
+                const mensaje = `Hola, me interesa el modelo *${producto.nombre}* que cuesta S/${producto.precio}. ¿Tienes stock?`;
+                const linkWhatsApp = `https://api.whatsapp.com/send?phone=${miCelular}&text=${encodeURIComponent(mensaje)}`;
             
-            // TU NÚMERO (Sin espacios, solo dígitos. Asegúrate que sea correcto)
-            // Vi en tu captura que usaste este, si es otro cámbialo aquí:
-            const miCelular = "51977507037"; 
-
-            // Creamos el mensaje
-            const mensaje = `Hola, me interesa el modelo *${producto.nombre}* que cuesta S/${producto.precio}. ¿Tienes stock?`;
-            
-            // USAMOS EL FORMATO "API" (Más seguro que wa.me)
-            const linkWhatsApp = `https://api.whatsapp.com/send?phone=${miCelular}&text=${encodeURIComponent(mensaje)}`;
-            
-            // Asignamos el link al botón
-            const botonFinal = document.getElementById('btn-whatsapp-final');
-            botonFinal.href = linkWhatsApp;
-            
-            // Importante: Fuerza a que se abra en nueva pestaña
-            botonFinal.setAttribute('target', '_blank');
-
-            // 3. Mostramos la ventana
-            modal.style.display = 'flex';
+                const botonFinal = document.getElementById('btn-whatsapp-final');
+                botonFinal.href = linkWhatsApp;
+                modal.style.display = 'flex';
         }
     }
 
@@ -715,17 +572,13 @@ function abrirModal(idProducto) {
         if(modal) modal.style.display = 'none';
     }
 
-    // Cerrar si clicamos fuera
-    window.onclick = function(event) {
+            window.onclick = function(event) {
         const modal = document.getElementById('modal-producto');
-        if (event.target == modal) {
-            cerrarModal();
-        }
+        if (event.target == modal) { cerrarModal(); }
     }
 
-    // 7. ¡ARRANCAR MOTORES! (Esta línea es la que dibuja todo al inicio)
+    // ARRANQUE INICIAL
     renderizarProductos(misProductos);
-
-    </script>
+        </script>
 </body>
 </html>
